@@ -7,6 +7,7 @@ import {
 	SidebarRail,
 } from "../ui/sidebar";
 import { Logo } from "./logo";
+import { Navigation } from "./navigation";
 import { UserCard } from "./user-card";
 
 export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
@@ -15,7 +16,9 @@ export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
 			<SidebarHeader>
 				<Logo />
 			</SidebarHeader>
-			<SidebarContent>Some content</SidebarContent>
+			<SidebarContent>
+				<Navigation />
+			</SidebarContent>
 			<SidebarFooter>
 				<UserCard />
 			</SidebarFooter>
