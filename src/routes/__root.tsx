@@ -3,14 +3,14 @@ import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 type RouterContext = {
-	auth: AuthState;
+	auth: AuthState | undefined;
 };
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	component: () => (
-		<div>
+		<>
 			<Outlet />
-			<TanStackRouterDevtools />
-		</div>
+			<TanStackRouterDevtools position="bottom-right" />
+		</>
 	),
 });
