@@ -15,6 +15,7 @@ import { Route as LoginImport } from './routes/login'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthTestImport } from './routes/_auth/test'
+import { Route as AuthmoviesMoviesImport } from './routes/_auth/(movies)/movies'
 
 // Create/Update Routes
 
@@ -38,6 +39,12 @@ const IndexRoute = IndexImport.update({
 const AuthTestRoute = AuthTestImport.update({
   id: '/test',
   path: '/test',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthmoviesMoviesRoute = AuthmoviesMoviesImport.update({
+  id: '/(movies)/movies',
+  path: '/movies',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -73,6 +80,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTestImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/(movies)/movies': {
+      id: '/_auth/(movies)/movies'
+      path: '/movies'
+      fullPath: '/movies'
+      preLoaderRoute: typeof AuthmoviesMoviesImport
+      parentRoute: typeof AuthImport
+    }
   }
 }
 
@@ -80,10 +94,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthRouteChildren {
   AuthTestRoute: typeof AuthTestRoute
+  AuthmoviesMoviesRoute: typeof AuthmoviesMoviesRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthTestRoute: AuthTestRoute,
+  AuthmoviesMoviesRoute: AuthmoviesMoviesRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -93,6 +109,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/test': typeof AuthTestRoute
+  '/movies': typeof AuthmoviesMoviesRoute
 }
 
 export interface FileRoutesByTo {
@@ -100,6 +117,7 @@ export interface FileRoutesByTo {
   '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/test': typeof AuthTestRoute
+  '/movies': typeof AuthmoviesMoviesRoute
 }
 
 export interface FileRoutesById {
@@ -108,14 +126,21 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/_auth/test': typeof AuthTestRoute
+  '/_auth/(movies)/movies': typeof AuthmoviesMoviesRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/test'
+  fullPaths: '/' | '' | '/login' | '/test' | '/movies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/test'
-  id: '__root__' | '/' | '/_auth' | '/login' | '/_auth/test'
+  to: '/' | '' | '/login' | '/test' | '/movies'
+  id:
+    | '__root__'
+    | '/'
+    | '/_auth'
+    | '/login'
+    | '/_auth/test'
+    | '/_auth/(movies)/movies'
   fileRoutesById: FileRoutesById
 }
 
@@ -152,7 +177,8 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/test"
+        "/_auth/test",
+        "/_auth/(movies)/movies"
       ]
     },
     "/login": {
@@ -160,6 +186,10 @@ export const routeTree = rootRoute
     },
     "/_auth/test": {
       "filePath": "_auth/test.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/(movies)/movies": {
+      "filePath": "_auth/(movies)/movies.tsx",
       "parent": "/_auth"
     }
   }
