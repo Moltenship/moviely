@@ -1,7 +1,12 @@
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import type { AuthState } from "@instantdb/react";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-export const Route = createRootRoute({
+type RouterContext = {
+	auth: AuthState;
+};
+
+export const Route = createRootRouteWithContext<RouterContext>()({
 	component: () => (
 		<div>
 			<Outlet />
